@@ -1,16 +1,19 @@
-name: 'Create a release'
-description: 'Create a release for a tag in your repository'
+name: 'easyware-io/update-release'
+description: 'Updates a release in your repository'
 author: 'easyware.io'
 inputs:
   token:
     required: true
     description: 'GitHub token'
-  tag_name:
+  release_id:
     required: true
     description: 'The name of the tag. This should come from the webhook payload, `github.GITHUB_REF` when a user pushes a new tag'
   release_name:
-    required: true
+    required: false
     description: 'The name of the release. For example, `v1.0.1`'
+  tag_name:
+    required: false
+    description: 'The new name of the tag.'
   body:
     required: false
     description: 'Text describing the contents of the tag.'
@@ -23,21 +26,79 @@ inputs:
   prerelease:
     required: false
     description: '`true` to identify the release as a prerelease. `false` to identify the release as a full release. Default: `false`'
-  commitish:
-    required: false
-    description: 'Any branch or commit SHA the Git tag is created from, unused if the Git tag already exists. Default: SHA of current commit'
   owner:
     required: false
     description: 'Owner of the repository if it is not the current one'
   repo:
     required: false
     description: 'Repository on which to release.  Used only if you want to create the release on another repo'
-  make_latest:
+  error-if-not-found:
+    description: 'Action fails if release is not found'
     required: false
-    description: 'Optional. Possible values are `true`, `false` and `legacy`'
+    default: 'false'
 outputs:
-  data:
-    description: 'The release data'
+  id:
+    description: 'ID of the release'
+  name:
+    description: 'Name of the release'
+  tag_name:
+    description: 'Tag name of the release'
+  body:
+    description: 'Body of the release'
+  draft:
+    description: 'Whether the release is a draft'
+  prerelease:
+    description: 'Whether the release is a prerelease'
+  created_at:
+    description: 'Creation date of the release'
+  published_at:
+    description: 'Publication date of the release'
+  url:
+    description: 'URL of the release'
+  html_url:
+    description: 'HTML URL of the release'
+  assets_url:
+    description: 'URL of the release assets'
+  upload_url:
+    description: 'URL for uploading assets to the release'
+  tarball_url:
+    description: 'URL of the release tarball'
+  zipball_url:
+    description: 'URL of the release zipball'
+  node_id:
+    description: 'Node ID of the release'
+  author_login:
+    description: 'Login of the release author'
+  author_id:
+    description: 'ID of the release author'
+  author_node_id:
+    description: 'Node ID of the release author'
+  author_avatar_url:
+    description: 'Avatar URL of the release author'
+  author_html_url:
+    description: 'HTML URL of the release author'
+  author_followers_url:
+    description: 'URL of the followers of the release author'
+  author_following_url:
+    description: 'URL of the users followed by the release author'
+  author_gists_url:
+    description: 'URL of the gists created by the release author'
+  author_starred_url:
+    description: 'URL of the repositories starred by the release author'
+  author_subscriptions_url:
+    description: 'URL of the subscriptions of the release author'
+  author_organizations_url:
+    description: 'URL of the organizations the release author belongs to'
+  author_repos_url:
+    description: 'URL of the repositories owned by the release author'
+  author_events_url:
+    description: 'URL of the events performed by the release author'
+  author_received_events_url:
+    description: 'URL of the events received by the release author'
+  author_type:
+    description: 'Type of the release author'
+  author_site_admin:
+    description: 'Whether the release author is a site admin'
 runs:
   using: 'node20'
   main: 'dist/index.js'

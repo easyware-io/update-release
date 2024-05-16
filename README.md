@@ -1,100 +1,189 @@
-# easyware-io/create-release@v1
+# easyware-io/update-release@v1
 
-![CI](https://github.com/easyware-io/create-release/actions/workflows/build.yml/badge.svg)
+![CI](https://github.com/easyware-io/update-release/actions/workflows/build.yml/badge.svg)
 
-An Action to create releases via the GitHub Release API
+An Action to update releases via the GitHub Release API
 
 ## Usage
 
 ### Basic usage
 
 ```yaml
-- name: Create release
-  uses: easyware-io/create-release@v1
+- name: update release
+  uses: easyware-io/update-release@v1
   with:
     token: ${{ secrets.GITHUB_TOKEN }}
-    tag_name: v1.0.0
-    release_name: v1.0.0
+    release_id: 1
 ```
 
-### Optional params
+### Inputs
+
+#### `token`
+
+GitHub token
+
+#### `release_id`
+
+ID of the release (not release name!).`
+
+#### `release_name`
+
+Optional. New name for the release
+
+#### `tag_name`
+
+Optional. New tag name for the release.
 
 #### `body`
 
-Text describing the contents of the release. Optional, and not needed if using `body_path`.
+Optional. Text describing the contents of the release. Not needed if using `body_path`.
 
 #### `body_path`
 
-A file with contents describing the release. Optional, and not needed if using `body`.
+Optional. A file with contents describing the release. Not needed if using `body`.
 
 #### `draft`
 
-`true` to create a draft (unpublished) release, `false` to create a published one. Default: `false`
+Optional. `true` to update to draft (unpublished) release, `false` to publish the release.
 
 #### `prerelease`
 
-`true` to identify the release as a prerelease. `false` to identify the release as a full release. Default: `false`
-
-#### `commitish`
-
-Any branch or commit SHA the Git tag is created from, unused if the Git tag already exists. Default: SHA of current commit
+Optional. `true` to identify the release as a prerelease. `false` to identify the release as a full release.
 
 #### `owner`
 
-The name of the owner of the repo. Used to identify the owner of the repository. Used when cutting releases for external repositories. Default: Current owner
+Optional. Owner of the repository. Defaults to current owner.
 
 #### `repo`
 
-The name of the repository. Used to identify the repository on which to release. Used when cutting releases for external repositories. Default: Current repository
+Optional. Name of the repository. Defaults to current repo.
 
-#### `make_latest`
+#### `error-if-not-found`
 
-Possible values are `true`, `false` and `legacy`. Default: `undefined`
+Optional. Action fails if release is not found. Defaults to false.
 
-## Output
+### Outputs
 
-The action results an output called `data` that has this information:
+#### `id`
 
-```json
-{
-  "url": "https://github.com/api/v3/repos/easyware-io/create-release/releases/53665",
-  "assets_url": "https://github.com/api/v3/repos/easyware-io/create-release/releases/53665/assets",
-  "upload_url": "https://github.com/api/uploads/repos/easyware-io/create-release/releases/53665/assets{?name,label}",
-  "html_url": "https://github.com/easyware-io/create-release/releases/tag/v1.0.0",
-  "id": 53665,
-  "author": {
-    "login": "username",
-    "id": 1595,
-    "node_id": "MDQ6VXNlcjE1OTU=",
-    "avatar_url": "https://avatars.github.com/u/1595?",
-    "gravatar_id": "",
-    "url": "https://github.com/api/v3/users/username",
-    "html_url": "https://github.com/username",
-    "followers_url": "https://github.com/api/v3/users/username/followers",
-    "following_url": "https://github.com/api/v3/users/username/following{/other_user}",
-    "gists_url": "https://github.com/api/v3/users/username/gists{/gist_id}",
-    "starred_url": "https://github.com/api/v3/users/username/starred{/owner}{/repo}",
-    "subscriptions_url": "https://github.com/api/v3/users/username/subscriptions",
-    "organizations_url": "https://github.com/api/v3/users/username/orgs",
-    "repos_url": "https://github.com/api/v3/users/username/repos",
-    "events_url": "https://github.com/api/v3/users/username/events{/privacy}",
-    "received_events_url": "https://github.com/api/v3/users/username/received_events",
-    "type": "User",
-    "site_admin": false
-  },
-  "node_id": "MDc6UmVsZWFzZTUzNjY1",
-  "tag_name": "v1.0.0",
-  "target_commitish": "branch_name",
-  "name": "v1.0.0",
-  "draft": false,
-  "prerelease": false,
-  "created_at": "2024-05-14T10:08:54Z",
-  "published_at": "2024-05-14T15:48:49Z",
-  "assets": [],
-  "tarball_url": "https://github.com/api/v3/repos/easyware-io/create-release/tarball/v1.0.0",
-  "zipball_url": "https://github.com/api/v3/repos/easyware-io/create-release/zipball/v1.0.0",
-  "body": ""
-}
-```
+ID of the release
 
-If an error occurs, `data` will return as `null`.
+#### `name`
+
+Name of the release
+
+#### `tag_name`
+
+Tag name of the release
+
+#### `body`
+
+Body of the release
+
+#### `draft`
+
+Whether the release is a draft
+
+#### `prerelease`
+
+Whether the release is a prerelease
+
+#### `created_at`
+
+Creation date of the release
+
+#### `published_at`
+
+Publication date of the release
+
+#### `url`
+
+URL of the release
+
+#### `html_url`
+
+HTML URL of the release
+
+#### `assets_url`
+
+URL of the release assets
+
+#### `upload_url`
+
+URL for uploading assets to the release
+
+#### `tarball_url`
+
+URL of the release tarball
+
+#### `zipball_url`
+
+URL of the release zipball
+
+#### `node_id`
+
+Node ID of the release
+
+#### `author_login`
+
+Login of the release author
+
+#### `author_id`
+
+ID of the release author
+
+#### `author_node_id`
+
+Node ID of the release author
+
+#### `author_avatar_url`
+
+Avatar URL of the release author
+
+#### `author_html_url`
+
+HTML URL of the release author
+
+#### `author_followers_url`
+
+URL of the followers of the release author
+
+#### `author_following_url`
+
+URL of the users followed by the release author
+
+#### `author_gists_url`
+
+URL of the gists created by the release author
+
+#### `author_starred_url`
+
+URL of the repositories starred by the release author
+
+#### `author_subscriptions_url`
+
+URL of the subscriptions of the release author
+
+#### `author_organizations_url`
+
+URL of the organizations the release author belongs to
+
+#### `author_repos_url`
+
+URL of the repositories owned by the release author
+
+#### `author_events_url`
+
+URL of the events performed by the release author
+
+#### `author_received_events_url`
+
+URL of the events received by the release author
+
+#### `author_type`
+
+Type of the release author
+
+#### `author_site_admin`
+
+Whether the release author is a site admin
