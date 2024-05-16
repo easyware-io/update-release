@@ -63,7 +63,8 @@ function run() {
             const owner = core.getInput('owner') || currentOwner;
             const repo = core.getInput('repo') || currentRepo;
             const make_latest_raw = core.getInput('make_latest');
-            const make_latest = make_latest_raw === 'true' || make_latest_raw === 'false' || make_latest_raw === 'legacy' ? make_latest_raw : undefined;
+            const make_latest = make_latest_raw === 'true' || make_latest_raw === 'false' || make_latest_raw === 'legacy' ? make_latest_raw : 'false';
+            core.debug('Checking body');
             let bodyFileContent = null;
             if (body_path !== '' && !!body_path) {
                 try {
@@ -77,14 +78,14 @@ function run() {
             const octokit = github.getOctokit(token);
             core.debug(`Creating release ${tag_name} in ${owner}/${repo}`);
             const response = yield octokit.rest.repos.createRelease({
+                owner,
+                repo,
                 tag_name,
+                target_commitish,
                 name,
                 body: bodyFileContent || body,
                 draft,
                 prerelease,
-                target_commitish,
-                owner,
-                repo,
                 make_latest,
             });
             core.info(`Release created: ${response.data.html_url}`);
