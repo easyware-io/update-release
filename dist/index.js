@@ -70,7 +70,7 @@ function run() {
                     bodyFileContent = fs_1.default.readFileSync(body_path, { encoding: 'utf8' });
                 }
                 catch (error) {
-                    core.setFailed(`Failed to read body_path, error: ${error}`);
+                    core.debug(`Failed to read body_path, error: ${error}`);
                 }
             }
             core.debug(`Creating Octokit instance with token: ${token}`);
