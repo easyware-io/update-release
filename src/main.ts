@@ -15,8 +15,8 @@ export default async function run(): Promise<void> {
     const name = core.getInput('release_name');
     const body = core.getInput('body');
     const body_path = core.getInput('body_path');
-    const draft = core.getInput('draft') === 'true';
-    const prerelease = core.getInput('prerelease') === 'true';
+    const draftRaw = core.getInput('draft');
+    const prereleaseRaw = core.getInput('prerelease');
     const owner = core.getInput('owner') || currentOwner;
     const repo = core.getInput('repo') || currentRepo;
     const errorIfNotFound = core.getInput('error-if-not-found') === 'true';
@@ -40,6 +40,22 @@ export default async function run(): Promise<void> {
       release_id,
     });
 
+    core.debug('Validate draft flag');
+    let draft = false;
+    if (draftRaw == null) {
+      draft = currentRelease.data.draft;
+    } else {
+      draft = draftRaw === 'true';
+    }
+
+    core.debug('Validate prerelease flag');
+    let prerelease = true;
+    if (prereleaseRaw == null) {
+      prerelease = currentRelease.data.prerelease;
+    } else {
+      prerelease = prereleaseRaw === 'true';
+    }
+
     if (currentRelease == null) {
       if (errorIfNotFound) {
         core.error(`No release found.`);
@@ -58,8 +74,8 @@ export default async function run(): Promise<void> {
       tag_name: tag_name || currentRelease.data.tag_name,
       name: name || currentRelease.data.name || tag_name || currentRelease.data.tag_name,
       body: bodyFileContent || body || currentRelease.data.body || '',
-      draft: draft || currentRelease.data.draft,
-      prerelease: prerelease || currentRelease.data.prerelease,
+      draft,
+      prerelease,
     });
 
     core.debug(`Setting outputs`);
