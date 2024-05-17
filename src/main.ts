@@ -26,6 +26,8 @@ export default async function run(): Promise<void> {
     if (body_path !== '' && !!body_path) {
       try {
         bodyFileContent = fs.readFileSync(body_path, { encoding: 'utf8' });
+      } catch (error) {
+        core.debug(`Failed to read body_path, error: ${error}`);
       }
     }
 
