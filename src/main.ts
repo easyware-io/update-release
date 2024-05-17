@@ -55,11 +55,11 @@ export default async function run(): Promise<void> {
       owner,
       repo,
       release_id,
-      tag_name: tag_name ?? currentRelease.data.tag_name,
-      name: name ?? currentRelease.data.name,
-      body: (bodyFileContent || body) ?? currentRelease.data.body,
-      draft: draft ?? currentRelease.data.draft,
-      prerelease: prerelease ?? currentRelease.data.prerelease,
+      tag_name: tag_name || currentRelease.data.tag_name,
+      name: name || currentRelease.data.name || tag_name || currentRelease.data.tag_name,
+      body: bodyFileContent || body || currentRelease.data.body || '',
+      draft: draft || currentRelease.data.draft,
+      prerelease: prerelease || currentRelease.data.prerelease,
     });
 
     core.debug(`Setting outputs`);
