@@ -47,7 +47,6 @@ const github = __importStar(__nccwpck_require__(5438));
 const fs_1 = __importDefault(__nccwpck_require__(7147));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
-        var _a;
         try {
             core.debug('Getting owner and repo from context');
             const currentOwner = github.context.repo.owner;
@@ -96,11 +95,11 @@ function run() {
                 owner,
                 repo,
                 release_id,
-                tag_name: tag_name !== null && tag_name !== void 0 ? tag_name : currentRelease.data.tag_name,
-                name: name !== null && name !== void 0 ? name : currentRelease.data.name,
-                body: (_a = (bodyFileContent || body)) !== null && _a !== void 0 ? _a : currentRelease.data.body,
-                draft: draft !== null && draft !== void 0 ? draft : currentRelease.data.draft,
-                prerelease: prerelease !== null && prerelease !== void 0 ? prerelease : currentRelease.data.prerelease,
+                tag_name: tag_name || currentRelease.data.tag_name,
+                name: name || currentRelease.data.name || tag_name || currentRelease.data.tag_name,
+                body: bodyFileContent || body || currentRelease.data.body || '',
+                draft: draft || currentRelease.data.draft,
+                prerelease: prerelease || currentRelease.data.prerelease,
             });
             core.debug(`Setting outputs`);
             core.setOutput('id', response.data.id);
