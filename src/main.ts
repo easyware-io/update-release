@@ -111,7 +111,7 @@ export default async function run(): Promise<void> {
     core.setOutput('author_type', response.data.author.type);
     core.setOutput('author_site_admin', response.data.author.site_admin);
   } catch (error) {
-    core.setFailed(`Failed to create release, error: ${error}`);
+    core.setFailed(`Failed to update release, error: ${error}`);
   }
 }
 
